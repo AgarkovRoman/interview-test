@@ -16,6 +16,7 @@ import { generateCellName } from './generateCellName'
 import { useDataContext } from '../context/useDataContext'
 import { CellBasicType } from '../context/types'
 import { SplitIcon } from './SplitIcon'
+import { DeleteIcon } from './DeleteIcon'
 
 type Props = CellBasicType & {
     value: BasicForReview
@@ -28,12 +29,19 @@ export function CustomCell({ value, id, fieldName }: Props) {
     const isCellNextForReview = nextForReview === name
 
     const handleSelect = (key: 'all' | Set<Key>) => {
-        // Need to have this hack because of open discussion regarding API design https://github.com/adobe/react-spectrum/issues/5606
+        // Need to have this hack because of open discussion regarding component API design https://github.com/adobe/react-spectrum/issues/5606
         if (key !== 'all') {
             const newValue = key.values().next().value
 
             if (newValue === 'split') {
+                // On split click we keep values for current row as it is and create additional rows for values from value.forReview
                 splitRows({ id, fieldName })
+                return
+            }
+
+            if (newValue === 'skip') {
+                // On skip click we keep value for current row as it is and reset value.forReview
+                markAsReviewed({ id, fieldName, newValue: value.value })
                 return
             }
 
@@ -61,18 +69,32 @@ export function CustomCell({ value, id, fieldName }: Props) {
                         selectedKeys={value.value}
                         onSelectionChange={handleSelect}
                     >
-                        <DropdownSection title="Unreviewed values" showDivider>
+                        <DropdownSection
+                            title="Unreviewed values (select one or split)"
+                            showDivider
+                        >
                             {value.forReview.map((el) => (
                                 <DropdownItem key={el}>{el}</DropdownItem>
                             ))}
                         </DropdownSection>
-                        <DropdownSection>
+                        <DropdownSection showDivider>
                             <DropdownItem
-                                key={'split'}
+                                key="split"
                                 startContent={<SplitIcon />}
                                 description="Split all values to its own row"
                             >
                                 Split
+                            </DropdownItem>
+                        </DropdownSection>
+                        <DropdownSection>
+                            <DropdownItem
+                                key="skip"
+                                color="danger"
+                                className="text-danger"
+                                startContent={<DeleteIcon />}
+                                description="Skip review for current cell"
+                            >
+                                Skip
                             </DropdownItem>
                         </DropdownSection>
                     </DropdownMenu>

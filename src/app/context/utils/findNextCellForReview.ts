@@ -1,7 +1,7 @@
 import { generateCellName } from '../../shared/generateCellName'
 import { UserWithDataForReview } from '../../shared/types'
 
-export function findNextValueForReview(data: UserWithDataForReview[]) {
+export function findNextCellForReview(data: UserWithDataForReview[]) {
     for (const item of data) {
         for (const [key, value] of Object.entries(item)) {
             // Return cell name if object value has proper structure and if isReviewed is false

@@ -1,5 +1,5 @@
 import { UserWithDataForReview } from '../../../shared/types'
-import { findNextValueForReview } from '../findNextValueForReview'
+import { findNextCellForReview } from '../findNextCellForReview'
 
 const first: UserWithDataForReview = {
     id: '1',
@@ -27,9 +27,9 @@ const second: UserWithDataForReview = {
 
 const sampleData: UserWithDataForReview[] = [first, second]
 
-describe('findNextValueForReview', () => {
+describe('findNextCellForReview', () => {
     it('should return the first unreviewed value', () => {
-        const result = findNextValueForReview(sampleData)
+        const result = findNextCellForReview(sampleData)
 
         expect(result).toBe('1_name')
     })
@@ -49,7 +49,7 @@ describe('findNextValueForReview', () => {
             },
             second,
         ]
-        const result = findNextValueForReview(updatedSampleData)
+        const result = findNextCellForReview(updatedSampleData)
 
         expect(result).toBe('2_username')
     })
@@ -87,14 +87,14 @@ describe('findNextValueForReview', () => {
                 },
             },
         ]
-        const result = findNextValueForReview(reviewedData)
+        const result = findNextCellForReview(reviewedData)
 
         expect(result).toBeNull()
     })
 
     it('should return null if data is empty', () => {
         const emptyData: UserWithDataForReview[] = []
-        const result = findNextValueForReview(emptyData)
+        const result = findNextCellForReview(emptyData)
 
         expect(result).toBeNull()
     })

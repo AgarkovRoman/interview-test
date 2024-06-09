@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { CellBasicType, ContextType, MarkAsReviewParams } from './types'
 import { mapData } from './utils/mapData'
-import { findNextValueForReview } from './utils/findNextValueForReview'
+import { findNextCellForReview } from './utils/findNextCellForReview'
 import { getUsers } from '../api/getUsers'
 import { UserWithDataForReview } from '../shared/types'
 import { splitRowsInState } from './utils/splitRowsInState'
@@ -35,7 +35,7 @@ const ReviewProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [data])
 
-    const nextForReview = findNextValueForReview(resultData)
+    const nextForReview = findNextCellForReview(resultData)
 
     const markAsReviewed = ({ id, fieldName, newValue }: MarkAsReviewParams) =>
         setResultData((prevState) =>

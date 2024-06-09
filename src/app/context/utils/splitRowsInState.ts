@@ -2,9 +2,9 @@ import { nanoid } from 'nanoid'
 import { CellBasicType } from '../types'
 import { BasicForReview, UserWithDataForReview } from '../../shared/types'
 
-type Params2 = CellBasicType & { state: UserWithDataForReview[] }
+type Params = CellBasicType & { state: UserWithDataForReview[] }
 
-export const splitRowsInState = ({ id, fieldName, state }: Params2) => {
+export const splitRowsInState = ({ id, fieldName, state }: Params) => {
     const itemToSplit = state.find((user) => user.id === id)
 
     if (!itemToSplit) {

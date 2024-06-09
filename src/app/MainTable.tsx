@@ -6,8 +6,10 @@ import { useDataContext } from './context/useDataContext'
 import { columns } from './columns'
 
 export function MainTable() {
+    // Get data from context
     const { data, isLoading, isError } = useDataContext()
 
+    // Initialize data for table
     const table = useReactTable({
         data: data?.length ? data : [],
         columns,

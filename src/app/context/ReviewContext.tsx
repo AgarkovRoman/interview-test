@@ -26,15 +26,18 @@ const useUser = () => {
 
 const ReviewProvider = ({ children }: { children: React.ReactNode }) => {
     const [resultData, setResultData] = useState<UserWithDataForReview[]>([])
+    // Fetch data
     const { data, isError, isLoading } = useUser()
 
     useEffect(() => {
+        // Map data and add additional information for implementation requirement functionality
         if (data) {
             const mappedData = mapData(data)
             setResultData(mappedData)
         }
     }, [data])
 
+    // Get next value (row id and cell name) that needs to be reviewed
     const nextForReview = findNextCellForReview(resultData)
 
     const markAsReviewed = ({ id, fieldName, newValue }: MarkAsReviewParams) =>

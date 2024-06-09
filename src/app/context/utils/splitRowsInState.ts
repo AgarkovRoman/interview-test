@@ -18,19 +18,23 @@ export const splitRowsInState = ({ id, fieldName, state }: Params2) => {
         return state
     }
 
+    // Initialize cell with original value
     const initialCell: BasicForReview = {
         value: fieldToCopy.value,
         forReview: [],
         isReviewed: true,
     }
+    // Initialize row with original cell value
     const initialItem = { ...itemToSplit, [fieldName]: initialCell }
 
+    // Create rows from rest unreviewed values
     const alternativeItems = fieldToCopy.forReview.map((el) => ({
         ...itemToSplit,
         id: nanoid(),
         [fieldName]: { value: el, forReview: [], isReviewed: true },
     }))
 
+    // Create new state where row has been replaced with new initialItem
     const newState = state.map((user) => (user.id === id ? initialItem : user))
 
     // For simplicity, the new values are added to the end of the result array

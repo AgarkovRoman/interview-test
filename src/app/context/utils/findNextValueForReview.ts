@@ -3,10 +3,11 @@ import { UserWithDataForReview } from '../../shared/types'
 
 export function findNextValueForReview(data: UserWithDataForReview[]) {
     for (const item of data) {
-        for (const [field, details] of Object.entries(item)) {
-            if (details && typeof details === 'object' && 'isReviewed' in details) {
-                if (!details.isReviewed) {
-                    return generateCellName({ id: item.id, fieldName: field })
+        for (const [key, value] of Object.entries(item)) {
+            // Return cell name if object value has proper structure and if isReviewed is false
+            if (value && typeof value === 'object' && 'isReviewed' in value) {
+                if (!value.isReviewed) {
+                    return generateCellName({ id: item.id, fieldName: key })
                 }
             }
         }

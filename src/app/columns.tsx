@@ -9,7 +9,6 @@ const columnHelper = createColumnHelper<UserWithDataForReview>()
 const renderCustomCell = (ctx: CellContext<UserWithDataForReview, BasicForReview>) => (
     <CustomCell id={ctx.row.original.id} fieldName={ctx.column.id} value={ctx.getValue()} />
 )
-
 export const columns = [
     columnHelper.accessor('id', {
         header: 'User ID',
